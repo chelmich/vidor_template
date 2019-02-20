@@ -1,20 +1,6 @@
 #include <wiring_private.h>
 #include "jtag.h"
-
-// pins used for sending bitstream
-#define MB_INT 28
-#define MB_INT_PIN 31
-
-#define no_data	0xFF, 0xFF, 0xFF, 0xFF, \
-                0xFF, 0xFF, 0xFF, 0xFF, \
-                0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, \
-                0xFF, 0xFF, 0xFF, 0xFF, \
-                0x00, 0x00, 0x00, 0x00  \
-
-#define NO_BOOTLOADER   no_data
-#define NO_APP          no_data
-#define NO_USER_DATA    no_data
-
+#include "defines.h"
 
 __attribute__ ((used, section(".fpga_bitstream_signature")))
 const unsigned char signatures[4096] = {
@@ -26,10 +12,12 @@ const unsigned char bitstream[] = {
     #include "app.h"
 };
 
-void setup (){
+void FPGA_init (){
     // enable fpga clock
     pinPeripheral(30, PIO_AC_CLK);
     clockout(0, 1);
+
+    // wait for clock to come up (unnecessary?)
     delay(1000);
 
     // send bitstream over jtag
@@ -37,6 +25,11 @@ void setup (){
     jtagInit();
     mbPinSet();
     mbEveSend(ptr, 1);
+}
+
+void setup (){
+    FPGA_init();
+
     delay(1000);
 
     // turn on built in LED
