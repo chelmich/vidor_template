@@ -151,27 +151,7 @@ architecture behavior of top is
     signal wVID_CLKx5 : std_logic;
     signal wMEM_CLK : std_logic;
 
-    -- EXAMPLE CODE START
-    signal count : std_logic_vector (31 downto 0);
-
 begin
-
-    process (wCLK120) begin
-        if (rising_edge(wCLK120)) then
-            count <= count + 1;
-        end if;
-    end process;
-
-    bMKR_D ( 6 ) <= count(23);
-    bMKR_D ( 7 ) <= count(24);
-    bMKR_D ( 8 ) <= count(25);
-    bMKR_D ( 9 ) <= count(26);
-    bMKR_D ( 10 ) <= count(27);
-    bMKR_D ( 11 ) <= count(28);
-    bMKR_D ( 12 ) <= count(29);
-    bMKR_D ( 13 ) <= count(30);
-    bMKR_D ( 14 ) <= count(31);
-    -- EXAMPLE CODE END
 
     wCLK8 <= iCLK;
 
