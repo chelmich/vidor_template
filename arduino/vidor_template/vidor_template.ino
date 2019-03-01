@@ -25,6 +25,7 @@ void FPGA_init (){
     jtagInit();
     mbPinSet();
     mbEveSend(ptr, 1);
+    jtagDeinit();
 }
 
 void setup (){
